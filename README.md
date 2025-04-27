@@ -1,15 +1,26 @@
 # Курс Golang
 
+## Пишем REST API сервис на Go
+1. Config
+    - cleanenv
+2. Logger
+    - slog
+3. Storage
+    - sqllite
+4. Router
+    - chi
+5. Server
+
 **Консольные команды**
 
 * Запустить приложение
-```bash 
+```bash  
 go run main.go
 ```
 
 * Создать модуль в приложение
 ```bash 
-go mod init go-lessons/app-1
+go mod init go-lessons/junior-rest-api
 ```
 
 * Собрать приложение
@@ -19,5 +30,5 @@ go build
 
 * Запустить приложение как бинарник
 ```bash 
-./app-1 
+./junior-rest-api
 ```
