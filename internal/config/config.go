@@ -8,8 +8,15 @@ import (
 	"github.com/ilyakaznacheev/cleanenv"
 )
 
+const (
+	EnvLocal = "local"
+	EnvDev   = "dev"
+	EnvProd  = "prod"
+)
+
 type Config struct {
-	Env         string     `yaml:"env" env-default:"local"`
+	AppName     string
+	Env         string
 	StoragePath string     `yaml:"storage_path" env-required:"true"`
 	HTTPServer  HttpServer `yaml:"http_server"`
 }
@@ -25,16 +32,24 @@ func LoadConfig() *Config {
 	if configPath == "" {
 		log.Fatal("CONFIG_PATH is not set")
 	}
-
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		log.Fatalf("config file does not exist: %s", configPath)
 	}
+	appName := os.Getenv("APP_NAME")
+	if appName == "" {
+		panic("APP_NAME is not set")
+	}
+	envVar := os.Getenv("ENV")
+	if envVar == "" {
+		panic("ENV is not set")
+	}
 
 	var cfg Config
-
 	if err := cleanenv.ReadConfig(configPath, &cfg); err != nil {
 		log.Fatalf("cannot read config: %s", err)
 	}
+	cfg.Env = envVar
+	cfg.AppName = appName
 
 	return &cfg
 }
